@@ -9,7 +9,9 @@ data class Round(
     @JsonProperty("name")
     val name: String,
     @JsonProperty("participants")
-    val participants: List<Player>,
+    val players: List<Player>,
     @JsonProperty("status")
-    val status: Status
+    val status: Status,
+    @JsonProperty("wonders")
+    val wonders: List<Wonder>
 )

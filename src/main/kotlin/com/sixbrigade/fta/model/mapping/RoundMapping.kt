@@ -1,22 +1,20 @@
 package com.sixbrigade.fta.model.mapping
 
-import com.sixbrigade.fta.model.common.round.Player
-import com.sixbrigade.fta.model.common.round.Role
-import com.sixbrigade.fta.model.common.round.Round
-import com.sixbrigade.fta.model.common.round.Status
+import com.sixbrigade.fta.model.common.round.*
 import com.sixbrigade.fta.model.db.round.DBPlayer
-import com.sixbrigade.fta.model.db.round.DBRole
 import com.sixbrigade.fta.model.db.round.DBRound
-import com.sixbrigade.fta.model.db.round.DBStatus
+import com.sixbrigade.fta.model.db.round.DBWonder
 
 fun Round.toDBType() = DBRound(
     roundId = id,
     name = name,
-    participants = participants.toDBTypes(),
-    status = status.toDBType().code
+    players = players.toDBTypes().toHashSet(),
+    wonders = wonders.toDBTypes().toMutableList(),
+    status = status.toDBType()
 )
 
-fun List<Player>.toDBTypes() = map(Player::toDBType)
+@JvmName("PlayersToDB")
+fun Iterable<Player>.toDBTypes() = map(Player::toDBType)
 
 fun Player.toDBType() = DBPlayer(
     userId = userId,
@@ -24,65 +22,93 @@ fun Player.toDBType() = DBPlayer(
     role = role.toDBType()
 )
 
-fun Role.toDBType() = when(this) {
-    Role.Auditor -> DBRole.AUDITOR
-    Role.King -> DBRole.KING
-    Role.PrincessSwan -> DBRole.PRINCESS_SWAN
+@JvmName("WondersToDB")
+fun Iterable<Wonder>.toDBTypes(): List<DBWonder> = map(Wonder::toDBType)
+
+fun Wonder.toDBType() = DBWonder(
+    wonderId = id,
+    name = name,
+    roundId = roundId,
+    isVerified = isVerified,
+    isApproved = isApproved,
+    createdForStage = createdForStage
+)
+
+fun Role.toDBType() = when (this) {
+    Role.Auditor -> 0
+    Role.King -> 1
+    Role.PrincessSwan -> 2
 }
 
-fun Status.toDBType() = when(this) {
-    Status.AwaitFirstWonderApproval -> DBStatus.AWAIT_FIRST_WONDER_APPROVAL
-    Status.AwaitLastWonderApproval -> DBStatus.AWAIT_LAST_WONDER_APPROVAL
-    Status.AwaitSecondWonderApproval -> DBStatus.AWAIT_SECOND_WONDER_APPROVAL
-    Status.AwaitThirdWonderApproval -> DBStatus.AWAIT_THIRD_WONDER_APPROVAL
-    Status.Finished -> DBStatus.FINISHED
-    Status.FirstWonderApproved -> DBStatus.FIRST_WONDER_APPROVED
-    Status.FirstWonderRejected -> DBStatus.FIRST_WONDER_REJECTED
-    Status.LastWonderApproved -> DBStatus.LAST_WONDER_APPROVED
-    Status.LastWonderRejected -> DBStatus.LAST_WONDER_REJECTED
-    Status.NotStarted -> DBStatus.NOT_STARTED
-    Status.SecondWonderApproved -> DBStatus.SECOND_WONDER_APPROVED
-    Status.SecondWonderRejected -> DBStatus.SECOND_WONDER_REJECTED
-    Status.Started -> DBStatus.STARTED
-    Status.ThirdWonderApproved -> DBStatus.THIRD_WONDER_APPROVED
-    Status.ThirdWonderRejected -> DBStatus.THIRD_WONDER_REJECTED
+fun Status.toDBType() = when (this) {
+    Status.NotStarted -> 0
+    Status.Started -> 1
+    Status.AwaitFirstWonderApproval -> 2
+    Status.FirstWonderApproved -> 3
+    Status.FirstWonderRejected -> 4
+    Status.AwaitSecondWonderApproval -> 5
+    Status.SecondWonderApproved -> 6
+    Status.SecondWonderRejected -> 7
+    Status.AwaitThirdWonderApproval -> 8
+    Status.ThirdWonderApproved -> 9
+    Status.ThirdWonderRejected -> 10
+    Status.AwaitLastWonderApproval -> 11
+    Status.LastWonderApproved -> 12
+    Status.LastWonderRejected -> 13
+    Status.Finished -> 14
 }
+
+@JvmName("DBRoundsToCommon")
+fun Iterable<DBRound>.toCommonTypes() = map(DBRound::toCommonType)
 
 fun DBRound.toCommonType() = Round(
     id = roundId,
     name = name,
-    participants = participants.toCommonTypes(),
-    status = DBStatus.entries[status].toCommonType()
+    players = players.toCommonTypes(),
+    wonders = wonders.toCommonTypes(),
+    status = status.toRoundStatus()
 )
 
-fun List<DBPlayer>.toCommonTypes() = map(DBPlayer::toCommonType)
+@JvmName("DBWondersToCommon")
+fun Iterable<DBWonder>.toCommonTypes() = map(DBWonder::toCommonType)
+
+fun DBWonder.toCommonType() = Wonder(
+    id = wonderId,
+    name = name,
+    roundId = roundId,
+    isVerified = isVerified,
+    isApproved = isApproved,
+    createdForStage = createdForStage
+)
+
+fun HashSet<DBPlayer>.toCommonTypes() = map(DBPlayer::toCommonType)
 
 fun DBPlayer.toCommonType() = Player(
     userId = userId,
     roundId = roundId,
-    role = role.toCommonType()
+    role = role.toRoundRole()
 )
 
-fun DBRole.toCommonType() = when(this) {
-    DBRole.KING -> Role.King
-    DBRole.AUDITOR -> Role.Auditor
-    DBRole.PRINCESS_SWAN -> Role.PrincessSwan
+fun Int.toRoundRole() = when (this) {
+    0 -> Role.King
+    1 -> Role.Auditor
+    else -> Role.PrincessSwan
 }
 
-fun DBStatus.toCommonType() = when(this) {
-    DBStatus.NOT_STARTED -> Status.NotStarted
-    DBStatus.STARTED -> Status.Started
-    DBStatus.AWAIT_FIRST_WONDER_APPROVAL -> Status.AwaitFirstWonderApproval
-    DBStatus.FIRST_WONDER_APPROVED -> Status.FirstWonderApproved
-    DBStatus.FIRST_WONDER_REJECTED -> Status.FirstWonderRejected
-    DBStatus.AWAIT_SECOND_WONDER_APPROVAL -> Status.AwaitSecondWonderApproval
-    DBStatus.SECOND_WONDER_APPROVED -> Status.SecondWonderApproved
-    DBStatus.SECOND_WONDER_REJECTED -> Status.SecondWonderRejected
-    DBStatus.AWAIT_THIRD_WONDER_APPROVAL -> Status.AwaitThirdWonderApproval
-    DBStatus.THIRD_WONDER_APPROVED -> Status.ThirdWonderApproved
-    DBStatus.THIRD_WONDER_REJECTED -> Status.ThirdWonderRejected
-    DBStatus.AWAIT_LAST_WONDER_APPROVAL -> Status.AwaitLastWonderApproval
-    DBStatus.LAST_WONDER_APPROVED -> Status.LastWonderApproved
-    DBStatus.LAST_WONDER_REJECTED -> Status.LastWonderRejected
-    DBStatus.FINISHED -> Status.Finished
+fun Int.toRoundStatus() = when (this) {
+    0 -> Status.NotStarted
+    1 -> Status.Started
+    2 -> Status.AwaitFirstWonderApproval
+    3 -> Status.FirstWonderApproved
+    4 -> Status.FirstWonderRejected
+    5 -> Status.AwaitSecondWonderApproval
+    6 -> Status.SecondWonderApproved
+    7 -> Status.SecondWonderRejected
+    8 -> Status.AwaitThirdWonderApproval
+    9 -> Status.ThirdWonderApproved
+    10 -> Status.ThirdWonderRejected
+    11 -> Status.AwaitLastWonderApproval
+    12 -> Status.LastWonderApproved
+    13 -> Status.LastWonderRejected
+    else -> Status.Finished
 }

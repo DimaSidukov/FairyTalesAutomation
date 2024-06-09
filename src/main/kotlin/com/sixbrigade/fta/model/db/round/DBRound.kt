@@ -11,7 +11,9 @@ data class DBRound(
     val roundId: String,
     val name: String,
     @Transient
-    val participants: List<DBPlayer>,
+    val players: HashSet<DBPlayer>,
+    @Transient
+    val wonders: MutableList<DBWonder>,
     val status: Int
 ) : Serializable, Persistable<String> {
 
@@ -21,5 +23,13 @@ data class DBRound(
 
     override fun isNew(): Boolean {
         return roundId.isNotEmpty()
+    }
+
+    fun addPlayer(player: DBPlayer) {
+        players.add(player)
+    }
+
+    fun addWonder(wonder: DBWonder) {
+        wonders.add(wonder)
     }
 }

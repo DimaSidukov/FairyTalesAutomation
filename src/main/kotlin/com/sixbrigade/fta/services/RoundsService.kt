@@ -20,6 +20,8 @@ class RoundsService(
 
     fun getRounds() = dataSource.getRounds()
 
+    fun getAvailablePlayers() = dataSource.getAvailablePlayers()
+
     fun getRoundsAwaitingWonder() = dataSource.getRoundsAwaitingWonder()
 
     fun makeWonder(roundId: String, wonderName: String) = dataSource.makeWonder(roundId, wonderName)
@@ -29,5 +31,7 @@ class RoundsService(
     fun verifyWonder(wonderId: String) = dataSource.verifyWonder(wonderId)
 
     fun approveWonder(wonderId: String) = dataSource.approveWonder(wonderId)
+
+    fun rejectWonder(wonderId: String) = dataSource.rejectWonder(wonderId)
 
 }

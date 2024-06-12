@@ -13,6 +13,6 @@ data class Wonder(
     val isVerified: Boolean,
     @JsonProperty("is_approved")
     val isApproved: Boolean,
-    @JsonProperty("created_for_storage")
+    @JsonProperty("created_for_stage")
     val createdForStage: Int?
 )

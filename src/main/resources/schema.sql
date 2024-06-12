@@ -11,24 +11,24 @@ create table if not exists `User`(
 
 -- round
 create table if not exists Round(
-    round_id varchar(36) primary key,
+    round_id varchar(36) primary key not null unique,
     name varchar(255) not null,
     status int not null
 );
 
 -- player
 create table if not exists Player(
-    userId int primary key not null,
+    user_id int primary key not null,
     role int not null,
     round_id varchar(36) not null
 );
 
 -- wonder
 create table if not exists Wonder(
-    id varchar(36) primary key,
+    wonder_id varchar(36) primary key not null unique,
     name varchar(255) not null,
     round_id varchar(36) not null,
     is_verified boolean not null,
-    is_rejected boolean not null,
+    is_approved boolean not null,
     created_for_stage int
 )

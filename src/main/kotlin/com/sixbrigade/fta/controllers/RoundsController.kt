@@ -28,6 +28,9 @@ class RoundsController(
     @GetMapping("/available_players")
     fun getAvailablePlayers() = roundsService.getAvailablePlayers()
 
+    @GetMapping("/wonders")
+    fun getWonders() = roundsService.getWonders()
+
     @GetMapping("/need_wonder")
     fun getRoundsAwaitingWonder() = roundsService.getRoundsAwaitingWonder()
 

@@ -89,8 +89,6 @@ class RoundsDataSource(
         }
 
         return rounds.toCommonTypes()
-
-        // return roundRepository.findAll().toList().toCommonTypes()
     }
 
     fun getAvailablePlayers(): List<Player> {

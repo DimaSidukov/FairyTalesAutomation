@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30%;
+        }
+
+        .login-container {
+            text-align: center;
+        }
+
+        .login-container input {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 80%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-container button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border: 2px solid red;
+            background-color: transparent;
+            color: red;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .dashboard {
+            background-color: beige;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard .header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: maroon;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .dashboard .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .dashboard .content .buttons-row {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dashboard .content .buttons-row button {
+            border: 2px solid #3498db;
+            padding: 20px 40px;
+            margin: 10px;
+            background-color: transparent;
+            color: #3498db;
+            font-size: 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .dashboard .content .buttons-row button:hover {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .logout-btn {
+            border: 2px solid #e74c3c;
+            padding: 15px 30px;
+            background-color: transparent;
+            color: #e74c3c;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        .users-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: white;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+
+        .users-list.visible {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .users-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .users-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 25px;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .users-list li:hover {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Сказка о царе Салтане</div>
+    <div class="login-container" id="login-container">
+        <input type="text" id="login" placeholder="Логин">
+        <input type="password" id="password" placeholder="Пароль">
+        <button id="login-button">Войти</button>
+        <p class="error-message" id="error-message"></p>
+    </div>
+
+    <div class="dashboard" id="dashboard" style="display: none;">
+        <div class="header">Личный кабинет пользователя</div>
+        <div class="content">
+            <div class="buttons-row">
+                <button id="create-round-btn">Список потенциальных участников</button>
+                <div class="users-list" id="users-list">
+                    <ul>
+                        <li>Пользователь 1</li>
+                        <li>Пользователь 2</li>
+                        <li>Пользователь 3</li>
+                    </ul>
+                </div>
+                <button id="list-rounds-btn">Список раундов</button>
+            </div>
+        </div>
+        <button class="logout-btn" id="logout">Выход</button>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

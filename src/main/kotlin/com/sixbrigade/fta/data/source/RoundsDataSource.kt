@@ -2,11 +2,14 @@ package com.sixbrigade.fta.data.source
 
 import com.sixbrigade.fta.data.repository.PlayerRepository
 import com.sixbrigade.fta.data.repository.RoundRepository
+import com.sixbrigade.fta.data.repository.UserRepository
 import com.sixbrigade.fta.data.repository.WondersRepository
+import com.sixbrigade.fta.model.common.User
 import com.sixbrigade.fta.model.common.round.Player
 import com.sixbrigade.fta.model.common.round.Round
 import com.sixbrigade.fta.model.common.round.Status
 import com.sixbrigade.fta.model.common.round.Wonder
+import com.sixbrigade.fta.model.db.DBUser
 import com.sixbrigade.fta.model.db.round.DBRound
 import com.sixbrigade.fta.model.db.round.DBWonder
 import com.sixbrigade.fta.model.mapping.*
@@ -19,6 +22,7 @@ import java.util.*
 @Repository
 class RoundsDataSource(
     @Autowired private val jdbcTemplate: JdbcTemplate,
+    @Autowired private val userRepository: UserRepository,
     @Autowired private val roundRepository: RoundRepository,
     @Autowired private val playerRepository: PlayerRepository,
     @Autowired private val wonderRepository: WondersRepository
@@ -65,7 +69,7 @@ class RoundsDataSource(
     fun getRound(roundId: String): Round = getRounds().first { round -> round.id == roundId }
 
     fun getRounds(): List<Round> {
-        val dbRounds = jdbcTemplate.query("SELECT * FROM ROUND") { rs, round ->
+        val dbRounds = jdbcTemplate.query("SELECT * FROM ROUND") { rs, _ ->
             DBRound(
                 roundId = rs.getString(1),
                 name = rs.getString(2),
@@ -91,8 +95,17 @@ class RoundsDataSource(
         return rounds.toCommonTypes()
     }
 
-    fun getAvailablePlayers(): List<Player> {
-        return playerRepository.findAll().toHashSet().toCommonTypes()
+    fun getAvailablePlayers(): List<User> {
+        return jdbcTemplate.query("SELECT * FROM `User`") { rs, _ ->
+            DBUser(
+                id = rs.getInt(1),
+                name = rs.getString(2),
+                email = rs.getString(3),
+                createdAt = rs.getString(4),
+                login = rs.getString(5),
+                password = rs.getString(6)
+            )
+        }.toCommonTypes()
     }
 
     fun getRoundsAwaitingWonder() = getRounds().filter { round ->

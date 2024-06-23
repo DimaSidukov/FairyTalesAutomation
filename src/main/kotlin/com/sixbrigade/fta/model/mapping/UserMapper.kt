@@ -12,6 +12,8 @@ fun User.toDBType(login: String, password: String) = DBUser(
     password = password
 )
 
+fun Iterable<DBUser>.toCommonTypes() = map(DBUser::toCommonType)
+
 fun DBUser.toCommonType() = User(
     id = id,
     name = name,

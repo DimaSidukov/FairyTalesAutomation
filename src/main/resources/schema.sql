@@ -4,7 +4,7 @@ create table if not exists `User`(
     id int auto_increment primary key,
     name varchar(255) not null,
     email varchar(255) not null,
-    createdAt varchar(19) not null,
+    created_at varchar(19) not null,
     login varchar(255) not null,
     password varchar(255) not null
 );

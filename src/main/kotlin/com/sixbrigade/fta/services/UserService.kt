@@ -16,4 +16,8 @@ class UserService(
 
     fun setRole(userId: String, preferredRole: String) = dataSource.setRole(userId, preferredRole)
 
+    fun getAllUsers() = dataSource.getAllUsers()
+
+    fun delete(userId: String) = dataSource.delete(userId)
+
 }

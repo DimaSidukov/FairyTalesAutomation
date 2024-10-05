@@ -5,6 +5,7 @@ import com.sixbrigade.fta.model.common.round.Status
 import com.sixbrigade.fta.model.db.DBUser
 import com.sixbrigade.fta.model.db.round.DBPlayer
 import com.sixbrigade.fta.model.mapping.toCommonType
+import com.sixbrigade.fta.model.mapping.toCommonTypes
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -103,6 +104,10 @@ class UserDataSource(
         }
         return ResponseEntity.ok(users.first().toCommonType())
     }
+
+    fun getAllUsers() = repository.findAll().toList().toCommonTypes()
+
+    fun delete(userId: String) = repository.deleteById(userId)
 
     private fun saveNewUser(login: String, password: String, name: String, email: String): DBUser {
         val now = LocalDateTime.now()

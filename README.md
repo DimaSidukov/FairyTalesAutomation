@@ -1,7 +1,7 @@
 # Project information
 
-## Авторизация
-###  POST `/auth/login`
+## Пользователь
+###  POST `/user/login`
 Метод для входа в систему
 
 Query params:
@@ -19,9 +19,9 @@ Return type:
   ```
 
 Пример запроса:
-`/auth/login?login=admin&password=admin`
+`/user/login?login=admin&password=admin`
 
-### POST `/auth/signup`
+### POST `/user/signup`
 Метод для регистрации
 
 Query params:
@@ -40,7 +40,7 @@ Return type:
   }
   ```
 
-### POST `/auth/{userId}/set_role`
+### POST `/user/{userId}/set_role`
 Метод для установки роля пользователем
 
 Path variables:
@@ -52,7 +52,18 @@ Query params:
 Return type:
 * `User`
 
-Пример запроса: `auth/:userId/set_role`
+Пример запроса: `user/:userId/set_role`
+
+### GET `/user/all`
+Метод для получения списка всех пользователей с информацией о них
+
+Return type:
+* `User`
+
+### POST `/user/{userId}/delete`
+Метод для удаления пользователя
+
+Пример запроса: `user/:userId/delete`
 
 ## Раунды
 ### POST `/rounds/create`

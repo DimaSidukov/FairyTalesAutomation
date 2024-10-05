@@ -1,7 +1,7 @@
 
 -- user
 create table if not exists `User`(
-    id varchar(36) primary key,
+    user_id varchar(36) primary key,
     name varchar(255) not null,
     email varchar(255) not null,
     created_at varchar(19) not null,
@@ -13,13 +13,13 @@ create table if not exists `User`(
 create table if not exists Round(
     round_id varchar(36) primary key not null unique,
     name varchar(255) not null,
-    status int not null
+    status varchar(36) not null
 );
 
 -- player
 create table if not exists Player(
     user_id int primary key not null,
-    role int not null,
+    role varchar(36) not null,
     round_id varchar(36) not null
 );
 

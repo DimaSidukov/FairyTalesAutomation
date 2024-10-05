@@ -14,7 +14,7 @@ data class DBRound(
     val players: HashSet<DBPlayer>,
     @Transient
     val wonders: MutableList<DBWonder>,
-    val status: Int
+    val status: String
 ) : Serializable, Persistable<String> {
 
     override fun getId(): String {

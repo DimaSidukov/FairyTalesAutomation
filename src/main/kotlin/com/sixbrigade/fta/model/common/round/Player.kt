@@ -8,5 +8,5 @@ data class Player(
     @JsonProperty("round_id")
     val roundId: String,
     @JsonProperty("role")
-    val role: Role
+    val role: String
 )

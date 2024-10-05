@@ -14,7 +14,7 @@ class RoundsController(
 ) {
 
     @PostMapping("/create")
-    fun createRound(name: String): Round = roundsService.createRound(name)
+    fun createRound(name: String) = roundsService.createRound(name)
 
     @PostMapping("/{roundId}/select_users")
     fun selectUsers(@PathVariable roundId: String, @RequestBody players: List<Player>) =

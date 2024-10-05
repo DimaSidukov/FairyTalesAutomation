@@ -8,6 +8,6 @@ import java.io.Serializable
 data class DBPlayer(
     @Id
     val userId: Int,
-    val role: Int,
+    val role: String,
     val roundId: String
 ) : Serializable

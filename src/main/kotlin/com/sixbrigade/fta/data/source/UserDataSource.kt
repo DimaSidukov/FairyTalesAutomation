@@ -35,7 +35,7 @@ class UserDataSource(
         val query = QUERY_LOG_IN_PASSWORD.format(login, password)
         val result = jdbcTemplate.query(query) { rs, _ ->
             DBUser(
-                id = rs.getString(1),
+                userId = rs.getString(1),
                 name = rs.getString(2),
                 email = rs.getString(3),
                 createdAt = rs.getString(4).toString(),
@@ -65,7 +65,7 @@ class UserDataSource(
         val query = QUERY_LOG_IN.format(login)
         val result = jdbcTemplate.query(query) { rs, _ ->
             DBUser(
-                id = rs.getString(1),
+                userId = rs.getString(1),
                 name = rs.getString(2),
                 email = rs.getString(3),
                 createdAt = rs.getString(4).toString(),
@@ -94,7 +94,7 @@ class UserDataSource(
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val formattedNow = now.format(formatter)
         val user = DBUser(
-            id = UUID.randomUUID().toString(),
+            userId = UUID.randomUUID().toString(),
             name = name,
             email = email,
             createdAt = formattedNow,

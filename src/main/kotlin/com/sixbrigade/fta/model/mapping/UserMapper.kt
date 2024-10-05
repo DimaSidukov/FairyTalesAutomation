@@ -4,7 +4,7 @@ import com.sixbrigade.fta.model.common.User
 import com.sixbrigade.fta.model.db.DBUser
 
 fun User.toDBType(login: String, password: String) = DBUser(
-    id = id,
+    userId = id,
     name = name,
     email = email,
     createdAt = createdAt,
@@ -15,7 +15,7 @@ fun User.toDBType(login: String, password: String) = DBUser(
 fun Iterable<DBUser>.toCommonTypes() = map(DBUser::toCommonType)
 
 fun DBUser.toCommonType() = User(
-    id = id,
+    id = userId,
     name = name,
     email = email,
     createdAt = createdAt

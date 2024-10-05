@@ -216,6 +216,18 @@ Return type:
 
 
 ## Типы данных
+### User
+```json
+  {
+      "id": "69a89a57-65d7-4e8a-806b-9b67ca302a24",
+      "name": "SarahConnor",
+      "email": "sarah@resistance.com",
+      "createdAt": "2024-10-05 21:06:44",
+      "preferredRole": "princess_swan",
+      "isBanned": false
+  }
+```
+
 ### Round
 ```json
  {

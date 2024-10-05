@@ -126,14 +126,20 @@ Return type:
 
 Return type:
 * `[Wonder]`
+
+### GET `/rounds/wonders_awaiting_approval`
+Метод для получения списка чудес, ожидающих утверждения
+
+Return type:
+* `[Wonder]`
   
-### GET `rounds/need_wonder`
+### GET `/rounds/need_wonder`
 Методя для получения списка раундов, которым требуется создать чудо
 
 Return type:
 * `[Round]`
 
-### POST  `rounds/{roundId}/make_wonder`
+### POST  `/rounds/{roundId}/make_wonder`
 Метод для создания чуда для конкретного раунда
 
 Path variables:
@@ -148,7 +154,7 @@ Return type:
 Пример запроса:
 ` /rounds/:roundId/make_wonder?wonderName=shining chain`
 
-### POST `rounds/verify_wonder`
+### POST `/rounds/verify_wonder`
 Метод для верификации чуда
 
 Query params:
@@ -159,7 +165,7 @@ Return type:
 
 Пример запроса: `rounds/verify_wonder?wonderId=b9e4607f-103d-494f-9143-5145deb58bf2`
 
-### POST `rounds/approve_wonder`
+### POST `/rounds/approve_wonder`
 Метод для одобрения чуда
 
 Query params:
@@ -170,7 +176,7 @@ Return type:
 
 Пример запроса: `rounds/approve_wonder?wonderId=b9e4607f-103d-494f-9143-5145deb58bf2`
 
-### POST `rounds/reject_wonder`
+### POST `/rounds/reject_wonder`
 Метод для отклонения чуда
 
 Query params:

@@ -16,7 +16,6 @@ import com.sixbrigade.fta.model.mapping.toDBTypes
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
@@ -44,6 +43,12 @@ class RoundsDataSource(
         )
 
         const val ROUND_BY_NAME = "SELECT * FROM ROUND WHERE name LIKE '%s' LIMIT 1"
+    }
+
+    sealed interface RoundsQueryType {
+        data object All : RoundsQueryType
+        data object Active : RoundsQueryType
+        data object WithWondersAwaitingApproval : RoundsQueryType
     }
 
     fun createRound(name: String): ResponseEntity<Any> {
@@ -82,8 +87,18 @@ class RoundsDataSource(
 
     fun getRound(roundId: String): Round = getRounds().first { round -> round.id == roundId }
 
-    fun getRounds(): List<Round> {
-        val dbRounds = jdbcTemplate.query("SELECT * FROM ROUND") { rs, _ ->
+    fun getRounds(roundsQueryType: RoundsQueryType = RoundsQueryType.Active): List<Round> {
+        val dbRounds = jdbcTemplate.query(
+            when (roundsQueryType) {
+                RoundsQueryType.Active -> "SELECT * FROM ROUND WHERE STATUS != '${Status.FINISHED}'"
+                RoundsQueryType.All -> "SELECT * FROM ROUND"
+                RoundsQueryType.WithWondersAwaitingApproval -> "SELECT * FROM ROUND WHERE STATUS IN (" +
+                        "'${Status.AWAIT_FIRST_WONDER_APPROVAL}', " +
+                        "'${Status.AWAIT_SECOND_WONDER_APPROVAL}', " +
+                        "'${Status.AWAIT_THIRD_WONDER_APPROVAL}', " +
+                        "'${Status.AWAIT_LAST_WONDER_APPROVAL}')"
+            }
+        ) { rs, _ ->
             DBRound(
                 roundId = rs.getString(1),
                 name = rs.getString(2),
@@ -109,7 +124,7 @@ class RoundsDataSource(
         return rounds.toCommonTypes()
     }
 
-    fun getActiveRounds(): List<Round> = getRounds().filter { round -> round.status != Status.FINISHED }
+    fun getActiveRounds(): List<Round> = getRounds(roundsQueryType = RoundsQueryType.Active)
 
     fun getAvailablePlayers(): List<User> {
         return jdbcTemplate.query("SELECT * FROM `User` WHERE PREFERRED_ROLE != '${Role.PRINCE_GUIDON}'") { rs, _ ->
@@ -129,6 +144,7 @@ class RoundsDataSource(
         StatusesThatRequireWonder.contains(round.status)
     }
 
+    // TODO: optimize it
     fun makeWonder(roundId: String, wonderName: String): Round {
         val currentRound = getRounds().firstOrNull { round ->
             round.id == roundId
@@ -180,6 +196,12 @@ class RoundsDataSource(
     }
 
     fun getWonders() = wonderRepository.findAll().toCommonTypes()
+
+    fun getWondersAwaitingApproval(): List<Wonder> {
+        return getRounds(roundsQueryType = RoundsQueryType.WithWondersAwaitingApproval).mapNotNull { round ->
+            round.wonders.lastOrNull()
+        }
+    }
 
     fun verifyWonder(wonderId: String): Wonder {
         val wonder = wonderRepository.findById(wonderId).get()

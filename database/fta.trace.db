@@ -7909,3 +7909,9 @@ SELECT STATUS FROM ROUND WHERE ROUND_ID IN (c9456b26-1352-447d-af93-fc80b97ef79f
 2024-10-05 17:17:35.854608+03:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT STATUS FROM ROUND WHERE ROUND_ID IN (c9456b26-1352-447[*]d-af93-fc80b97ef79f)"; expected "[, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, ,, )"; SQL statement:
 SELECT STATUS FROM ROUND WHERE ROUND_ID IN (c9456b26-1352-447d-af93-fc80b97ef79f) [42001-224]
+2024-10-05 20:27:00.615050+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM ROUND WHERE STATUS IN ('await first wonder approval', 'await second wonder approval', 'await third wonder approval, '[*]await last wonder approval'')"; expected "[, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, ,, )"; SQL statement:
+SELECT * FROM ROUND WHERE STATUS IN ('await first wonder approval', 'await second wonder approval', 'await third wonder approval, 'await last wonder approval'') [42001-224]
+2024-10-05 20:28:01.504120+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM ROUND WHERE STATUS IN ('await first wonder approval', 'await second wonder approval', 'await third wonder approval, 'await last wonder approval[*]')"; SQL statement:
+SELECT * FROM ROUND WHERE STATUS IN ('await first wonder approval', 'await second wonder approval', 'await third wonder approval, 'await last wonder approval') [42000-224]

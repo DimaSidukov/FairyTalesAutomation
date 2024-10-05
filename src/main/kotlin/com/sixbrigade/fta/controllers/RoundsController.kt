@@ -34,6 +34,9 @@ class RoundsController(
     @GetMapping("/wonders")
     fun getWonders() = roundsService.getWonders()
 
+    @GetMapping("/wonders_awaiting_approval")
+    fun getWondersAwaitingApproval() = roundsService.getWondersAwaitingApproval()
+
     @GetMapping("/need_wonder")
     fun getRoundsAwaitingWonder() = roundsService.getRoundsAwaitingWonder()
 

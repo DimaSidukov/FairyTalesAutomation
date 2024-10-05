@@ -28,6 +28,8 @@ class RoundsService(
 
     fun getWonders() = dataSource.getWonders()
 
+    fun getWondersAwaitingApproval() = dataSource.getWondersAwaitingApproval()
+
     fun verifyWonder(wonderId: String) = dataSource.verifyWonder(wonderId)
 
     fun approveWonder(wonderId: String) = dataSource.approveWonder(wonderId)

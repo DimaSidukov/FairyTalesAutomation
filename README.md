@@ -65,6 +65,22 @@ Return type:
 
 Пример запроса: `user/:userId/delete`
 
+### POST `/user/{userId}/block`
+Метод для блокировки пользователя
+
+Return type:
+* `User`
+
+Пример запроса: `/user/:userId/block`
+
+### POST `/user/{userId}/unblock`
+Метод для разблокировки пользователя
+
+Return type:
+* `User`
+
+Пример запроса: `/user/:userId/unblock`
+
 ## Раунды
 ### POST `/rounds/create`
 Метод для создания раунда

@@ -34,4 +34,10 @@ class UserController(
     @PostMapping("{userId}/delete")
     fun delete(@PathVariable userId: String) = userService.delete(userId)
 
+    @PostMapping("{userId}/block")
+    fun blockUser(@PathVariable userId: String) = userService.blockUser(userId)
+
+    @PostMapping("{userId}/unblock")
+    fun unblockUser(@PathVariable userId: String) = userService.unblockUser(userId)
+
 }

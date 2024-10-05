@@ -1,6 +1,7 @@
 package com.sixbrigade.fta.data.source
 
 import com.sixbrigade.fta.data.repository.UserRepository
+import com.sixbrigade.fta.model.common.User
 import com.sixbrigade.fta.model.common.round.Status
 import com.sixbrigade.fta.model.db.DBUser
 import com.sixbrigade.fta.model.db.round.DBPlayer
@@ -37,7 +38,8 @@ class UserDataSource(
                 createdAt = rs.getString(4).toString(),
                 login = rs.getString(5),
                 password = rs.getString(6),
-                preferredRole = rs.getString(7)
+                preferredRole = rs.getString(7),
+                isBanned = rs.getBoolean(8)
             )
         }
         if (result.isEmpty()) {
@@ -61,7 +63,8 @@ class UserDataSource(
                 createdAt = rs.getString(4).toString(),
                 login = rs.getString(5),
                 password = rs.getString(6),
-                preferredRole = rs.getString(7)
+                preferredRole = rs.getString(7),
+                isBanned = rs.getBoolean(8)
             )
         }
         if (result.size == 0) {
@@ -99,7 +102,8 @@ class UserDataSource(
                 createdAt = rs.getString(4).toString(),
                 login = rs.getString(5),
                 password = rs.getString(6),
-                preferredRole = rs.getString(7)
+                preferredRole = rs.getString(7),
+                isBanned = rs.getBoolean(8)
             )
         }
         return ResponseEntity.ok(users.first().toCommonType())
@@ -108,6 +112,16 @@ class UserDataSource(
     fun getAllUsers() = repository.findAll().toList().toCommonTypes()
 
     fun delete(userId: String) = repository.deleteById(userId)
+
+    fun blockUser(userId: String): User {
+        jdbcTemplate.execute("UPDATE `User` SET IS_BANNED = TRUE WHERE USER_ID LIKE '$userId'")
+        return repository.findById(userId).get().toCommonType()
+    }
+
+    fun unblockUser(userId: String): User {
+        jdbcTemplate.execute("UPDATE `User` SET IS_BANNED = FALSE WHERE USER_ID LIKE '$userId'")
+        return repository.findById(userId).get().toCommonType()
+    }
 
     private fun saveNewUser(login: String, password: String, name: String, email: String): DBUser {
         val now = LocalDateTime.now()
@@ -120,7 +134,8 @@ class UserDataSource(
             createdAt = formattedNow,
             login = login,
             password = password,
-            preferredRole = null
+            preferredRole = null,
+            isBanned = false
         )
         repository.save(user)
         return user

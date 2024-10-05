@@ -20,4 +20,8 @@ class UserService(
 
     fun delete(userId: String) = dataSource.delete(userId)
 
+    fun blockUser(userId: String) = dataSource.blockUser(userId)
+
+    fun unblockUser(userId: String) = dataSource.unblockUser(userId)
+
 }

@@ -5,5 +5,6 @@ data class User(
     val name: String,
     val email: String,
     val createdAt: String,
-    val preferredRole: String?
+    val preferredRole: String?,
+    val isBanned: Boolean
 )

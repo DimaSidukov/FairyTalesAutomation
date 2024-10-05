@@ -135,7 +135,8 @@ class RoundsDataSource(
                 createdAt = rs.getString(4),
                 login = rs.getString(5),
                 password = rs.getString(6),
-                preferredRole = rs.getString(7)
+                preferredRole = rs.getString(7),
+                isBanned = rs.getBoolean(8)
             )
         }.toCommonTypes()
     }

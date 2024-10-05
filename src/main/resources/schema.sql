@@ -7,7 +7,8 @@ create table if not exists `User`(
     created_at varchar(19) not null,
     login varchar(255) not null,
     password varchar(255) not null,
-    preferred_role varchar(36)
+    preferred_role varchar(36),
+    is_banned boolean not null
 );
 
 -- round

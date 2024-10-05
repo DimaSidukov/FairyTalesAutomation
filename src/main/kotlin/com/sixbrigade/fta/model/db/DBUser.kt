@@ -16,7 +16,8 @@ data class DBUser(
     val login: String,
     val password: String,
     @Nullable
-    val preferredRole: String?
+    val preferredRole: String?,
+    val isBanned: Boolean
 ) : Serializable, Persistable<String> {
     override fun getId(): String {
         return userId

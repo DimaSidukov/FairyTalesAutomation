@@ -1,7 +1,6 @@
 package com.sixbrigade.fta.controllers
 
 import com.sixbrigade.fta.model.common.round.Player
-import com.sixbrigade.fta.model.common.round.Round
 import com.sixbrigade.fta.services.RoundsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -23,8 +22,11 @@ class RoundsController(
     @GetMapping("/{roundId}")
     fun getRound(@PathVariable roundId: String) = roundsService.getRound(roundId)
 
-    @GetMapping()
-    fun getRounds() = roundsService.getRounds()
+    @GetMapping("/all")
+    fun getAllRounds() = roundsService.getAllRounds()
+
+    @GetMapping("/active")
+    fun getActiveRounds() = roundsService.getActiveRounds()
 
     @GetMapping("/available_players")
     fun getAvailablePlayers() = roundsService.getAvailablePlayers()

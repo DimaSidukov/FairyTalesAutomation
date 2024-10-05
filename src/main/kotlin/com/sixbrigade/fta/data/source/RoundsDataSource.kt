@@ -109,6 +109,8 @@ class RoundsDataSource(
         return rounds.toCommonTypes()
     }
 
+    fun getActiveRounds(): List<Round> = getRounds().filter { round -> round.status != Status.FINISHED }
+
     fun getAvailablePlayers(): List<User> {
         return jdbcTemplate.query("SELECT * FROM `User` WHERE PREFERRED_ROLE != '${Role.PRINCE_GUIDON}'") { rs, _ ->
             DBUser(

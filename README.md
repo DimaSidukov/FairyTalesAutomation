@@ -102,9 +102,14 @@ Return type:
 Пример запроса:
 `rounds/:roundId`
 
-### GET `/rounds`
-Метод для получения списка раундов
+### GET `/rounds/all`
+Метод для получения списка ВСЕХ раундов (включая завершённые)
 
+Return type:
+* `[Round]`
+
+### GET `/rounds/active`
+Метод для получения списка АКТИВНЫХ раундов
 Return type:
 * `[Round]`
 

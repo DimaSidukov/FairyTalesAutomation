@@ -16,7 +16,9 @@ class RoundsService(
 
     fun getRound(roundId: String) = dataSource.getRound(roundId)
 
-    fun getRounds() = dataSource.getRounds()
+    fun getAllRounds() = dataSource.getRounds()
+
+    fun getActiveRounds() = dataSource.getActiveRounds()
 
     fun getAvailablePlayers() = dataSource.getAvailablePlayers()
 

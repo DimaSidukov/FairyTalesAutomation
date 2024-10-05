@@ -6,7 +6,8 @@ create table if not exists `User`(
     email varchar(255) not null,
     created_at varchar(19) not null,
     login varchar(255) not null,
-    password varchar(255) not null
+    password varchar(255) not null,
+    preferred_role varchar(36)
 );
 
 -- round

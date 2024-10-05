@@ -40,6 +40,20 @@ Return type:
   }
   ```
 
+### POST `/auth/{userId}/set_role`
+Метод для установки роля пользователем
+
+Path variables:
+* `userId` - идентификатор пользователя
+
+Query params:
+* `preferred_role` - новая роль пользователя
+
+Return type:
+* `User`
+
+Пример запроса: `auth/:userId/set_role`
+
 ## Раунды
 ### POST `/rounds/create`
 Метод для создания раунда
@@ -226,26 +240,27 @@ Return type:
 | Царь             | king          |
 | Аудитор          | auditor       |
 | Принцесса Лебедь | princess_swan |
+| Князь Гвидон     | prince_guidon | 
 
 Поле status соответствует следующим состояниям:
 
-| Состояние                              | Значение |
-|----------------------------------------|--|
-| Не запущен (не начат)                  | not_started |
-| Запущен (начат)                        | started |
-| Ожидается удтверждение первого чуда    | await first wonder approval |
-| Первое чудо утверждено                 | first wonder approved |
-| Первое чудо отклонено                  | first wonder rejected |
+| Состояние                              | Значение                     |
+|----------------------------------------|------------------------------|
+| Не запущен (не начат)                  | not_started                  |
+| Запущен (начат)                        | started                      |
+| Ожидается удтверждение первого чуда    | await first wonder approval  |
+| Первое чудо утверждено                 | first wonder approved        |
+| Первое чудо отклонено                  | first wonder rejected        |
 | Ожидается удтверждение второго чуда    | await second wonder approval |
-| Второе чудо утверждено                 | second wonder approved |
-| Второе чудо отклонено                  | second wonder rejected |
-| Ожидается удтверждение третьего чуда   | await third wonder approval |
-| Третье чудо утверждено                 | third wonder approved |
-| Третье чудо отклонено                  | third wonder rejected |
-| Ожидается удтверждение четвёртого чуда | await last wonder approval |
-| Четвёртое чудо утверждено              | last wonder approved |
-| Четвёртое чудо отклонено               | last wonder rejected |
-| Завершён                               | finished |
+| Второе чудо утверждено                 | second wonder approved       |
+| Второе чудо отклонено                  | second wonder rejected       |
+| Ожидается удтверждение третьего чуда   | await third wonder approval  |
+| Третье чудо утверждено                 | third wonder approved        |
+| Третье чудо отклонено                  | third wonder rejected        |
+| Ожидается удтверждение четвёртого чуда | await last wonder approval   |
+| Четвёртое чудо утверждено              | last wonder approved         |
+| Четвёртое чудо отклонено               | last wonder rejected         |
+| Завершён                               | finished                     |
 
 ## Примечания
 

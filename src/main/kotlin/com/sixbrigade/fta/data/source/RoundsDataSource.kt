@@ -120,7 +120,8 @@ class RoundsDataSource(
                 email = rs.getString(3),
                 createdAt = rs.getString(4),
                 login = rs.getString(5),
-                password = rs.getString(6)
+                password = rs.getString(6),
+                preferredRole = rs.getString(7)
             )
         }.toCommonTypes()
     }

@@ -9,7 +9,8 @@ fun User.toDBType(login: String, password: String) = DBUser(
     email = email,
     createdAt = createdAt,
     login = login,
-    password = password
+    password = password,
+    preferredRole = preferredRole
 )
 
 fun Iterable<DBUser>.toCommonTypes() = map(DBUser::toCommonType)
@@ -18,5 +19,6 @@ fun DBUser.toCommonType() = User(
     id = userId,
     name = name,
     email = email,
-    createdAt = createdAt
+    createdAt = createdAt,
+    preferredRole = preferredRole
 )

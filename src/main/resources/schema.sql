@@ -19,7 +19,7 @@ create table if not exists Round(
 
 -- player
 create table if not exists Player(
-    user_id int primary key not null,
+    user_id varchar(36) primary key not null,
     role varchar(36) not null,
     round_id varchar(36) not null
 );

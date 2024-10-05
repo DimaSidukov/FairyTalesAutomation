@@ -5,10 +5,7 @@ import com.sixbrigade.fta.data.repository.RoundRepository
 import com.sixbrigade.fta.data.repository.UserRepository
 import com.sixbrigade.fta.data.repository.WondersRepository
 import com.sixbrigade.fta.model.common.User
-import com.sixbrigade.fta.model.common.round.Player
-import com.sixbrigade.fta.model.common.round.Round
-import com.sixbrigade.fta.model.common.round.Status
-import com.sixbrigade.fta.model.common.round.Wonder
+import com.sixbrigade.fta.model.common.round.*
 import com.sixbrigade.fta.model.db.DBUser
 import com.sixbrigade.fta.model.db.round.DBRound
 import com.sixbrigade.fta.model.db.round.DBWonder
@@ -113,7 +110,7 @@ class RoundsDataSource(
     }
 
     fun getAvailablePlayers(): List<User> {
-        return jdbcTemplate.query("SELECT * FROM `User`") { rs, _ ->
+        return jdbcTemplate.query("SELECT * FROM `User` WHERE PREFERRED_ROLE != '${Role.PRINCE_GUIDON}'") { rs, _ ->
             DBUser(
                 userId = rs.getString(1),
                 name = rs.getString(2),

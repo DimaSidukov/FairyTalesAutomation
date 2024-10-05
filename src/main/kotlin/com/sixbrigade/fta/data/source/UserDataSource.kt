@@ -1,8 +1,9 @@
 package com.sixbrigade.fta.data.source
 
 import com.sixbrigade.fta.data.repository.UserRepository
-import com.sixbrigade.fta.model.common.User
+import com.sixbrigade.fta.model.common.round.Status
 import com.sixbrigade.fta.model.db.DBUser
+import com.sixbrigade.fta.model.db.round.DBPlayer
 import com.sixbrigade.fta.model.mapping.toCommonType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -75,7 +76,17 @@ class UserDataSource(
         }
     }
 
-    fun setRole(userId: String, preferredRole: String): User {
+    fun setRole(userId: String, preferredRole: String): ResponseEntity<Any> {
+        val isUserInUnfinishedRounds = isUserInUnfinishedRounds(userId)
+        if (isUserInUnfinishedRounds) {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(
+                mapOf(
+                    "code" to HttpStatus.METHOD_NOT_ALLOWED.value(),
+                    "message" to "Not possible to change role at the moment. Wait for all of your pending games to finish"
+                )
+            )
+        }
+
         jdbcTemplate.execute(
             "UPDATE `User` SET PREFERRED_ROLE = '$preferredRole' WHERE USER_ID LIKE '$userId'"
         )
@@ -90,7 +101,7 @@ class UserDataSource(
                 preferredRole = rs.getString(7)
             )
         }
-        return users.first().toCommonType()
+        return ResponseEntity.ok(users.first().toCommonType())
     }
 
     private fun saveNewUser(login: String, password: String, name: String, email: String): DBUser {
@@ -110,4 +121,37 @@ class UserDataSource(
         return user
     }
 
+    private fun isUserInUnfinishedRounds(userId: String) : Boolean {
+        val roundIds = jdbcTemplate.query(
+            "SELECT * FROM PLAYER WHERE user_id LIKE '$userId'"
+        ) { rs, _ ->
+            DBPlayer(
+                userId = rs.getString(1),
+                role = rs.getString(2),
+                roundId = rs.getString(3)
+            )
+        }.map(DBPlayer::roundId)
+        println("ROUND IDS: $roundIds")
+        if (roundIds.isEmpty()) {
+            return false
+        }
+        val rounds = jdbcTemplate.query(
+            "SELECT STATUS FROM ROUND WHERE ROUND_ID IN (${roundIds.joinToString(prefix="'", postfix="'", separator="' ,'")})"
+        ) { rs, _ ->
+            rs.getString(1)
+        }
+        println("ROUNDS FOUND STATUSES: $rounds")
+        return rounds.any { status -> status != Status.FINISHED }
+    }
+
 }
+
+//{
+//    "id": "475ef5d9-1eba-4153-88bd-ccdfe0774f09",
+//    "name": "SarahConnor",
+//    "email": "sarah@resistance.com\n",
+//    "createdAt": "2024-10-05 16:22:38",
+//    "preferredRole": "king"
+//}
+//
+//d02d62e9-19f6-4fb4-964b-93d96ff05a47

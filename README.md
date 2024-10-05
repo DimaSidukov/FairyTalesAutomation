@@ -9,10 +9,36 @@ Query params:
   * `password` - пароль пользователя
 
 Return type:
-  * `boolean` - удалось войти или нет
+  * `User` - пользователь найден 
+  * Если пользователь не найден:
+  ```
+    {
+        "code": 404,
+        "message": "There is no user with given credentials."
+    }
+  ```
 
 Пример запроса:
 `/auth/login?login=admin&password=admin`
+
+### POST `/auth/signup`
+Метод для регистрации
+
+Query params:
+  * `login` - логин пользователя
+  * `password` - пароль пользователя
+  * `name` - имя пользователя
+  * `email` - почтовый ящик пользователя
+
+Return type:
+  * `User` - пользователь успешно зарегистрирован
+  * Если пользователь с таким логином уже существует
+  ```
+  {
+    "code": 400,
+    "message": "User with given login already exists!"
+  }
+  ```
 
 ## Раунды
 ### POST `/rounds/create`

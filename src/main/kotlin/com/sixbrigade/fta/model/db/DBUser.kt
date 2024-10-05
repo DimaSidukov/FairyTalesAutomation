@@ -7,7 +7,7 @@ import java.io.Serializable
 @Table(name = "USER")
 data class DBUser(
     @Id
-    val id: Int,
+    val id: String,
     val name: String,
     val email: String,
     val createdAt: String,

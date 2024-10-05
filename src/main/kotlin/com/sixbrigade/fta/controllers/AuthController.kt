@@ -17,4 +17,8 @@ class AuthController(
     @PostMapping("/login")
     fun logIn(login: String, password: String) = loginService.logIn(login, password)
 
+    @PostMapping("/signup")
+    fun signUp(login: String, password: String, name: String, email: String) =
+        loginService.signUp(login, password, name, email)
+
 }

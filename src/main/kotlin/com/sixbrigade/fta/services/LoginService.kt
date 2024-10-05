@@ -11,4 +11,7 @@ class LoginService(
 
     fun logIn(login: String, password: String) = dataSource.logIn(login, password)
 
+    fun signUp(login: String, password: String, name: String, email: String) =
+        dataSource.signUp(login, password, name, email)
+
 }

@@ -6918,3 +6918,6 @@ drop table user [42001-224]
 2024-06-23 21:23:12.130205+03:00 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * from [*]user"; expected "identifier"; SQL statement:
 select * from user [42001-224]
+2024-10-05 10:44:47.669608+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * from [*]user"; expected "identifier"; SQL statement:
+select * from user [42001-224]

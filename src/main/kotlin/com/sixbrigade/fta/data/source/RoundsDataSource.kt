@@ -98,7 +98,7 @@ class RoundsDataSource(
     fun getAvailablePlayers(): List<User> {
         return jdbcTemplate.query("SELECT * FROM `User`") { rs, _ ->
             DBUser(
-                id = rs.getInt(1),
+                id = rs.getString(1),
                 name = rs.getString(2),
                 email = rs.getString(3),
                 createdAt = rs.getString(4),

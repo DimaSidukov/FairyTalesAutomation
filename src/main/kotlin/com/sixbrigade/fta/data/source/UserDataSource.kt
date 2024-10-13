@@ -1,10 +1,12 @@
 package com.sixbrigade.fta.data.source
 
 import com.sixbrigade.fta.data.repository.UserRepository
+import com.sixbrigade.fta.data.source.RoundsDataSource.RoundsQueryType
 import com.sixbrigade.fta.model.common.User
 import com.sixbrigade.fta.model.common.round.Status
 import com.sixbrigade.fta.model.db.DBUser
 import com.sixbrigade.fta.model.db.round.DBPlayer
+import com.sixbrigade.fta.model.db.round.DBRound
 import com.sixbrigade.fta.model.mapping.toCommonType
 import com.sixbrigade.fta.model.mapping.toCommonTypes
 import org.springframework.beans.factory.annotation.Autowired
@@ -111,7 +113,19 @@ class UserDataSource(
 
     fun getAllUsers() = repository.findAll().toList().toCommonTypes()
 
-    fun delete(userId: String) = repository.deleteById(userId)
+    fun delete(userId: String): ResponseEntity<Any> {
+        val isUserInUnfinishedRounds = isUserInUnfinishedRounds(userId)
+        if (isUserInUnfinishedRounds) {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(
+                mapOf(
+                    "code" to HttpStatus.METHOD_NOT_ALLOWED.value(),
+                    "message" to "Not possible to delete account at the moment. You should finish all active rounds first!"
+                )
+            )
+        }
+        repository.deleteById(userId)
+        return ResponseEntity.ok(true)
+    }
 
     fun blockUser(userId: String): User {
         jdbcTemplate.execute("UPDATE `User` SET IS_BANNED = TRUE WHERE USER_ID LIKE '$userId'")
@@ -141,6 +155,7 @@ class UserDataSource(
         return user
     }
 
+    // TODO: could be refactored to filter while querying
     private fun isUserInUnfinishedRounds(userId: String) : Boolean {
         val roundIds = jdbcTemplate.query(
             "SELECT * FROM PLAYER WHERE user_id LIKE '$userId'"
@@ -151,7 +166,6 @@ class UserDataSource(
                 roundId = rs.getString(3)
             )
         }.map(DBPlayer::roundId)
-        println("ROUND IDS: $roundIds")
         if (roundIds.isEmpty()) {
             return false
         }
@@ -160,18 +174,7 @@ class UserDataSource(
         ) { rs, _ ->
             rs.getString(1)
         }
-        println("ROUNDS FOUND STATUSES: $rounds")
         return rounds.any { status -> status != Status.FINISHED }
     }
 
 }
-
-//{
-//    "id": "475ef5d9-1eba-4153-88bd-ccdfe0774f09",
-//    "name": "SarahConnor",
-//    "email": "sarah@resistance.com\n",
-//    "createdAt": "2024-10-05 16:22:38",
-//    "preferredRole": "king"
-//}
-//
-//d02d62e9-19f6-4fb4-964b-93d96ff05a47

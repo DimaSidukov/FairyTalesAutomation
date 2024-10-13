@@ -63,6 +63,16 @@ Return type:
 ### POST `/user/{userId}/delete`
 Метод для удаления пользователя
 
+Return type:
+* true - Если удалось удалить пользователя
+* Если пользователь участвует в активных раундах
+  ```
+  {
+    "code": 405,
+    "message": "Not possible to delete account at the moment. You should finish all active rounds first!"
+  }
+  ```
+
 Пример запроса: `user/:userId/delete`
 
 ### POST `/user/{userId}/block`

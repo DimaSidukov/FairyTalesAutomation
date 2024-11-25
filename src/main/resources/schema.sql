@@ -20,9 +20,12 @@ create table if not exists Round(
 
 -- player
 create table if not exists Player(
-    user_id varchar(36) primary key not null,
+    user_id varchar(36) not null,
     role varchar(36) not null,
-    round_id varchar(36) not null
+    round_id varchar(36) not null,
+    primary key (user_id, round_id),
+    foreign key (user_id) references `User`(user_id) on delete cascade,
+    foreign key (round_id) references Round(round_id) on delete cascade
 );
 
 -- wonder
@@ -32,5 +35,6 @@ create table if not exists Wonder(
     round_id varchar(36) not null,
     is_verified boolean not null,
     is_approved boolean not null,
-    created_for_stage int
-)
+    created_for_stage int,
+    check (created_for_stage > 0 and created_for_stage < 5)
+);

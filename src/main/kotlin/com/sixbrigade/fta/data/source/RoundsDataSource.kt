@@ -72,7 +72,35 @@ class RoundsDataSource(
         return ResponseEntity.ok(round.toCommonType())
     }
 
-    fun selectUsers(roundId: String, players: List<Player>): Round {
+    fun selectUsers(roundId: String, players: List<Player>): ResponseEntity<Any> {
+        // Check whether roundIds are present in database
+        val foundRoundsIds = jdbcTemplate.query(
+            "SELECT ROUND_ID FROM ROUND WHERE ROUND_ID = '$roundId'"
+        ) { _, _ -> }
+        if (foundRoundsIds.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                mapOf(
+                    "code" to HttpStatus.NOT_FOUND.value(),
+                    "message" to "Round id is not found"
+                )
+            )
+        }
+
+        // Check whether userIds are present in database
+        val userIds = players.map(Player::userId)
+        val foundUserIds = jdbcTemplate.query(
+            "SELECT USER_ID FROM `User` WHERE USER_ID IN (${userIds.joinToString(prefix="'", postfix="'", separator="' ,'")})"
+        ) { _, _ -> }
+
+        if (userIds.size != foundUserIds.size) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                mapOf(
+                    "code" to HttpStatus.NOT_FOUND.value(),
+                    "message" to "Provided user ids are not found"
+                )
+            )
+        }
+
         val dbPlayers = players.map { player ->
             player.copy(
                 roundId = roundId
@@ -82,7 +110,7 @@ class RoundsDataSource(
         jdbcTemplate.execute(
             "UPDATE ROUND SET STATUS = '${Status.STARTED}' WHERE ROUND_ID LIKE '$roundId'"
         )
-        return getRounds().first { round -> round.id == roundId }
+        return ResponseEntity.ok(getRounds().first { round -> round.id == roundId })
     }
 
     fun getRound(roundId: String): Round = getRounds().first { round -> round.id == roundId }

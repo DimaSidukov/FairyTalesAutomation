@@ -1,4 +1,4 @@
-package com.sixbrigade.fta.model.common
+package com.sixbrigade.fta.model.common.user
 
 data class User(
     val id: String,

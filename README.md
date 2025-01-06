@@ -1,12 +1,18 @@
 # Project information
 
 ## Пользователь
-###  POST `/user/login`
+###  POST `/users/login`
 Метод для входа в систему
 
-Query params:
+Request body:
   * `login` - логин пользователя
   * `password` - пароль пользователя
+  ```
+  {
+      "login" : "john_connors"
+      "password" : "1234"
+  }
+  ```
 
 Return type:
   * `User` - пользователь найден 
@@ -19,16 +25,22 @@ Return type:
   ```
 
 Пример запроса:
-`/user/login?login=admin&password=admin`
+`/users/login?login=admin&password=admin`
 
-### POST `/user/signup`
+### POST `/users/signup`
 Метод для регистрации
 
 Query params:
   * `login` - логин пользователя
   * `password` - пароль пользователя
-  * `name` - имя пользователя
   * `email` - почтовый ящик пользователя
+  ```
+  {
+      "login" : "john_connors"
+      "password" : "1234",
+      "email" : "john@connors.com"
+  }
+  ```
 
 Return type:
   * `User` - пользователь успешно зарегистрирован
@@ -40,7 +52,7 @@ Return type:
   }
   ```
 
-### POST `/user/{userId}/set_role`
+### POST `/users/{userId}/set_role`
 Метод для установки роля пользователем
 
 Path variables:
@@ -52,15 +64,24 @@ Query params:
 Return type:
 * `User`
 
-Пример запроса: `user/:userId/set_role`
+Пример запроса: `users/:userId/set_role`
 
-### GET `/user/all`
+### GET `/users/all`
 Метод для получения списка всех пользователей с информацией о них
 
 Return type:
 * `User`
 
-### POST `/user/{userId}/delete`
+### GET `users/{userId}`
+Метод для получения информации о пользователе с id `userId`
+
+Path variables:
+* `userId` - идентификатор пользователя
+
+Return type:
+* `User`
+
+### POST `/users/{userId}/delete`
 Метод для удаления пользователя
 
 Return type:
@@ -73,23 +94,23 @@ Return type:
   }
   ```
 
-Пример запроса: `user/:userId/delete`
+Пример запроса: `users/:userId/delete`
 
-### POST `/user/{userId}/block`
+### POST `/users/{userId}/block`
 Метод для блокировки пользователя
 
 Return type:
 * `User`
 
-Пример запроса: `/user/:userId/block`
+Пример запроса: `/users/:userId/block`
 
-### POST `/user/{userId}/unblock`
+### POST `/users/{userId}/unblock`
 Метод для разблокировки пользователя
 
 Return type:
 * `User`
 
-Пример запроса: `/user/:userId/unblock`
+Пример запроса: `/users/:userId/unblock`
 
 ## Раунды
 ### POST `/rounds/create`
@@ -141,6 +162,15 @@ Return type:
 
 ### GET `/rounds/all`
 Метод для получения списка ВСЕХ раундов (включая завершённые)
+
+Return type:
+* `[Round]`
+
+### GET `roudns/user/{userId}`
+Методя для получения всех раундов, в которых участвует пользователь с id `userId`
+
+Path variables:
+* `userId` - идентификатор пользователя
 
 Return type:
 * `[Round]`

@@ -19,10 +19,33 @@
         #user-account {
             position: absolute;
             top: 20px;
-            right: 20px;
             color: maroon;
             font-size: 18px;
             font-weight: bold;
+            align-items: center;
+        }
+
+        #user-info {
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            color: green;
+            font-size: 18px;
+            font-weight: normal;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        #user-info .label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+            color: maroon;
+        }
+
+        #user-info .value {
+            display: inline-block;
+            color: green;
         }
 
         #rounds-wrapper {
@@ -135,6 +158,8 @@
 </head>
 <body>
     <div id="user-account">Личный кабинет пользователя</div>
+      <div id="user-info">
+      </div>
 
     <div id="rounds-wrapper">
         <div id="rounds-title">Раунды</div>

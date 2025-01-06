@@ -4,7 +4,7 @@ import com.sixbrigade.fta.data.repository.PlayerRepository
 import com.sixbrigade.fta.data.repository.RoundRepository
 import com.sixbrigade.fta.data.repository.UserRepository
 import com.sixbrigade.fta.data.repository.WondersRepository
-import com.sixbrigade.fta.model.common.User
+import com.sixbrigade.fta.model.common.user.User
 import com.sixbrigade.fta.model.common.round.*
 import com.sixbrigade.fta.model.db.DBUser
 import com.sixbrigade.fta.model.db.round.DBRound
@@ -114,6 +114,10 @@ class RoundsDataSource(
     }
 
     fun getRound(roundId: String): Round = getRounds().first { round -> round.id == roundId }
+
+    fun getUserRounds(userId: String): List<Round> = getRounds(RoundsQueryType.All).filter { round ->
+        round.players.map(Player::userId).contains(userId)
+    }
 
     fun getRounds(roundsQueryType: RoundsQueryType = RoundsQueryType.Active): List<Round> {
         val dbRounds = jdbcTemplate.query(

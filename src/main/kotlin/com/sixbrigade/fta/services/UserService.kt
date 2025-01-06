@@ -18,6 +18,8 @@ class UserService(
 
     fun getAllUsers() = dataSource.getAllUsers()
 
+    fun getUser(userId: String) = dataSource.getUser(userId)
+
     fun delete(userId: String) = dataSource.delete(userId)
 
     fun blockUser(userId: String) = dataSource.blockUser(userId)

@@ -25,6 +25,9 @@ class RoundsController(
     @GetMapping("/all")
     fun getAllRounds() = roundsService.getAllRounds()
 
+    @GetMapping("/user/{userId}")
+    fun getUserRounds(@PathVariable userId: String) = roundsService.getUserRounds(userId)
+
     @GetMapping("/active")
     fun getActiveRounds() = roundsService.getActiveRounds()
 

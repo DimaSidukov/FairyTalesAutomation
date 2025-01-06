@@ -1,0 +1,30 @@
+2024-11-17 19:01:07.857671+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table if not exists Player( user_id varchar(36) [*]foreign key not null, role varchar(36) not null, round_id foreign key varchar(36) not null )"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table if not exists Player( user_id varchar(36) foreign key not null, role varchar(36) not null, round_id foreign key varchar(36) not null ) [42001-224]
+2024-11-17 19:05:11.822215+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table if not exists Player( user_id varchar(36) not null, role varchar(36) not null, round_id varchar(36) not null, primary key (user_id, round_id), foreign key (user_id) references `User`(user_id), foreign key [*]KEY (round_id) references Round(round_id) )"; expected "("; SQL statement:
+create table if not exists Player( user_id varchar(36) not null, role varchar(36) not null, round_id varchar(36) not null, primary key (user_id, round_id), foreign key (user_id) references `User`(user_id), foreign key KEY (round_id) references Round(round_id) ) [42001-224]
+2024-11-17 19:09:02.523207+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * from [*]user"; expected "identifier"; SQL statement:
+select * from user [42001-224]
+2024-11-17 19:20:08.526296+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table if not exists Wonder( wonder_id varchar(36) primary key not null unique, name varchar(255) not null, round_id varchar(36) not null, is_verified boolean not null, is_approved boolean not null, created_for_stage int, check (created_for_stage > 0 and created_for_stage < 5) ) [*]SET GLOBAL sql_mode='STRICT_TRANS_TABLES'"; SQL statement:
+create table if not exists Wonder( wonder_id varchar(36) primary key not null unique, name varchar(255) not null, round_id varchar(36) not null, is_verified boolean not null, is_approved boolean not null, created_for_stage int, check (created_for_stage > 0 and created_for_stage < 5) ) SET GLOBAL sql_mode='STRICT_TRANS_TABLES' [42000-224]
+2024-11-17 19:20:20.915933+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SET [*]GLOBAL sql_mode='STRICT_TRANS_TABLES'"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"; SQL statement:
+SET GLOBAL sql_mode='STRICT_TRANS_TABLES' [42001-224]
+2024-11-17 19:23:17.266419+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SET [*]GLOBAL sql_mode='STRICT_TRANS_TABLES'"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"; SQL statement:
+SET GLOBAL sql_mode='STRICT_TRANS_TABLES' [42001-224]
+2024-11-17 19:33:23.653857+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "WONDER" not found; SQL statement:
+INSERT INTO Wonder (wonder_id, name, round_id, is_verified, is_approved, created_for_stage)
+VALUES ('123e4567-abcd-7890-efgh-1234567890ab', 'Great Wall of China', 'a1b2c3d4-5678-90ab-cdef-1234567890ab', true, true, 1) [42102-224]
+2024-11-17 19:42:49.707057+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "WONDER_ID CHARACTER VARYING(36)": "'234f5678-bcde-89xcvcxvxcv01-ghij-2345678901cd' (45)"; SQL statement:
+INSERT INTO Wonder (wonder_id, name, round_id, is_verified, is_approved, created_for_stage)
+VALUES ('234f5678-bcde-89xcvcxvxcv01-ghij-2345678901cd', 1543, 'b2c3d4e5-6789-01bc-def0-2345678901bc', false, false, 3) [22001-224]
+2024-11-18 18:31:45.805251+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'sdfgsdf' (WONDER: ""CREATED_FOR_STAGE"" INTEGER)"; SQL statement:
+INSERT INTO Wonder (wonder_id, name, round_id, is_verified, is_approved, created_for_stage)
+VALUES ('456h7890-def0-1234-ijkl-4567890123ef', 'Temple of Artemis', 'd4e5f6g7-8901-23de-f012-4567890123de', false, true, 'sdfgsdf') [22018-224]

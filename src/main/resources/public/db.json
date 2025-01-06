@@ -1,0 +1,72 @@
+{
+  "users": [
+    {
+      "id": "zfdx",
+      "login": "New",
+      "password": "new",
+      "email": "ab@mail.ru",
+      "isBanned": false
+    },
+    {
+      "id": "xhwq",
+      "login": "user1",
+      "password": "123",
+      "email": "ba@mail.ru",
+      "isBanned": false
+    },
+    {
+      "id": "oskw",
+      "login": "user2",
+      "password": "456",
+      "email": "a@mail.ru",
+      "isBanned": false
+    },
+    {
+      "id": "ftwe",
+      "login": "user3",
+      "password": "789",
+      "email": "aa@mail.ru",
+      "isBanned": false
+    }
+  ],
+  "rounds": [
+    {
+      "id": "5014",
+      "name": "Раунд 1",
+      "status": "active"
+    }
+  ],
+  "wonders": [
+    {
+      "id": "ab4d",
+      "name": "Белка",
+      "roundId": "5014",
+      "status": "is_approved"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "e9e0",
+      "participantId": "zfdx",
+      "roleId": "gvidon"
+    },
+    {
+      "id": "262d",
+      "participantId": "xhwq",
+      "roleId": "lebed",
+      "roundId": "5014"
+    },
+    {
+      "id": "bca2",
+      "participantId": "oskw",
+      "roleId": "babarikha",
+      "roundId": "5014"
+    },
+    {
+      "id": "c8e2",
+      "participantId": "ftwe",
+      "roleId": "saltan",
+      "roundId": "5014"
+    }
+  ]
+}

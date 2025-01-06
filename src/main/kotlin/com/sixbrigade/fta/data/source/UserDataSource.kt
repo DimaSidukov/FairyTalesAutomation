@@ -1,12 +1,10 @@
 package com.sixbrigade.fta.data.source
 
 import com.sixbrigade.fta.data.repository.UserRepository
-import com.sixbrigade.fta.data.source.RoundsDataSource.RoundsQueryType
-import com.sixbrigade.fta.model.common.User
+import com.sixbrigade.fta.model.common.user.User
 import com.sixbrigade.fta.model.common.round.Status
 import com.sixbrigade.fta.model.db.DBUser
 import com.sixbrigade.fta.model.db.round.DBPlayer
-import com.sixbrigade.fta.model.db.round.DBRound
 import com.sixbrigade.fta.model.mapping.toCommonType
 import com.sixbrigade.fta.model.mapping.toCommonTypes
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 
 @Repository
@@ -112,6 +111,15 @@ class UserDataSource(
     }
 
     fun getAllUsers() = repository.findAll().toList().toCommonTypes()
+
+    fun getUser(userId: String) = repository.findById(userId).getOrNull()?.let { user ->
+        ResponseEntity.ok(user)
+    } ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+        mapOf(
+            "code" to HttpStatus.NOT_FOUND.value(),
+            "message" to "User with the given id was not found"
+        )
+    )
 
     fun delete(userId: String): ResponseEntity<Any> {
         val isUserInUnfinishedRounds = isUserInUnfinishedRounds(userId)

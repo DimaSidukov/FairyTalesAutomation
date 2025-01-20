@@ -36,7 +36,7 @@ class UserController(
     fun getAllUsers() = userService.getAllUsers()
 
     @GetMapping("/{userId}")
-    fun getUserInfo(userId: String) = userService.getUser(userId)
+    fun getUserInfo(@PathVariable userId: String) = userService.getUser(userId)
 
     @PostMapping("{userId}/delete")
     fun delete(@PathVariable userId: String) = userService.delete(userId)
